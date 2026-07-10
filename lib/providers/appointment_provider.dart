@@ -26,4 +26,9 @@ class AppointmentProvider extends ChangeNotifier {
     _appointment.status = AppointmentStatus.confirmed;
     notifyListeners();
   }
+
+  void unconfirmAppointment() {
+    _appointment.status = AppointmentStatus.unconfirmed;
+    notifyListeners();
+  }
 }

@@ -89,7 +89,59 @@ class AppointmentScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
+            // Status switcher (for demo purposes)
+            Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                child: Row(
+                  children: [
+                    Text('Change Status:',
+                        style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500)),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: SegmentedButton<AppointmentStatus>(
+                        segments: const [
+                          ButtonSegment(
+                              value: AppointmentStatus.confirmed,
+                              label: Text('Confirmed',
+                                  style: TextStyle(fontSize: 11))),
+                          ButtonSegment(
+                              value: AppointmentStatus.unconfirmed,
+                              label: Text('Unconfirmed',
+                                  style: TextStyle(fontSize: 11))),
+                          ButtonSegment(
+                              value: AppointmentStatus.cancelled,
+                              label: Text('Cancelled',
+                                  style: TextStyle(fontSize: 11))),
+                        ],
+                        selected: {appt.status},
+                        onSelectionChanged: (val) {
+                          final s = val.first;
+                          if (s == AppointmentStatus.confirmed) {
+                            apptProvider.confirmAppointment();
+                          } else if (s == AppointmentStatus.unconfirmed) {
+                            apptProvider.unconfirmAppointment();
+                          } else {
+                            apptProvider.cancelAppointment();
+                          }
+                        },
+                        style: const ButtonStyle(
+                            visualDensity: VisualDensity.compact),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
             // Action buttons based on status
             if (appt.status == AppointmentStatus.confirmed) ...[
               FilledButton.icon(
